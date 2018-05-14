@@ -69,8 +69,7 @@ public class ProjetoControllerIT {
    	 
 		 mockMvc.perform(post("/projeto/salvar")
                  .contentType(MediaType.APPLICATION_JSON)
-                 .content(obterParaJson(new Projeto(ConstantesMock.NOME_TESTE, ConstantesMock.DESCRICAO_TESTE)))
-		 		 .accept(MediaType.APPLICATION_JSON))
+                 .content(converterParaJson(new Projeto(ConstantesMock.NOME_TESTE, ConstantesMock.DESCRICAO_TESTE))))
     	 		 .andExpect(status().isOk());
 		 
 		assertTrue(encontrarRegistroHistorico(AcaoEnum.SALVAR, ConstantesMock.DESCRICAO_TESTE));
@@ -82,7 +81,7 @@ public class ProjetoControllerIT {
 		Projeto projeto = (Projeto) mockMvc
 				.perform(post("/projeto/salvar")
 					.contentType(MediaType.APPLICATION_JSON)
-					.content(obterParaJson(new Projeto(ConstantesMock.NOME_TESTE_ALTERAR, ConstantesMock.DESCRICAO_TESTE)))
+					.content(converterParaJson(new Projeto(ConstantesMock.NOME_TESTE_ALTERAR, ConstantesMock.DESCRICAO_TESTE)))
 					.accept(MediaType.APPLICATION_JSON))
 					.andReturn().getModelAndView().getModel().get("projeto");
 		
@@ -161,7 +160,7 @@ public class ProjetoControllerIT {
 	 * @param projeto
 	 * @return
 	 */
-	private String obterParaJson(Projeto projeto) {
+	private String converterParaJson(Projeto projeto) {
 		try {
 			return mapper.writeValueAsString(projeto);
 		} catch (JsonProcessingException e) {
