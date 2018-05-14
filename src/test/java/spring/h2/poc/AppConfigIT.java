@@ -61,7 +61,7 @@ public class AppConfigIT extends WebMvcConfigurerAdapter {
 	public LocaleResolver localeResolver() {
 		CookieLocaleResolver resolver = new CookieLocaleResolver();
 		resolver.setDefaultLocale(new Locale("pt", "BR"));
-		resolver.setCookieName("dne-cookie");
+		resolver.setCookieName("poc-cookie");
 		resolver.setCookieMaxAge(4800);
 		return resolver;
 	}
