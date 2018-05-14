@@ -25,21 +25,6 @@ public class ProjetoController {
 	private ProjetoService projetoService;
 
 	/**
-	 * Método responsável por salvar um projeto. Deve ser utilizado na inclusão e na alteração.
-	 * 
-	 * @param numeroProjeto
-	 * @param nome
-	 * @param descricao
-	 * @return Projeto
-	 * @throws PocException 
-	 */
-	@RequestMapping(method = RequestMethod.GET, value = "/salvar", produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody Projeto salvar(@RequestParam(value = "numeroProjeto", required = false) Integer numeroProjeto,
-			@RequestParam(value = "nome") String nome, @RequestParam(value = "descricao") String descricao) throws PocException {
-		return projetoService.salvar(numeroProjeto,nome,descricao);
-	}
-	
-	/**
 	 * Método responsável por obter um projeto. Retorna um projeto.
 	 * 
 	 * @param numeroProjeto
@@ -49,18 +34,6 @@ public class ProjetoController {
 	@RequestMapping(method = RequestMethod.GET, value = "/obter/{numeroProjeto}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody Projeto obter(@PathVariable(value = "numeroProjeto") Integer numeroProjeto) throws PocException {
 		return projetoService.obter(numeroProjeto);
-	}
-	
-	/**
-	 * Método responsável por excluir um projeto, retorna uma mensagem de sucesso ou erro.
-	 * 
-	 * @param numeroProjeto
-	 * @return mensagem 
-	 * @throws PocException 
-	 */
-	@RequestMapping(method = RequestMethod.GET, value = "/excluir", produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody String excluir(@RequestParam(value = "numeroProjeto") Integer numeroProjeto) throws PocException {
-		return projetoService.excluir(numeroProjeto);
 	}
 	
 	/**
@@ -84,8 +57,8 @@ public class ProjetoController {
 	 * @return
 	 * @throws PocException
 	 */
-	@RequestMapping(method = RequestMethod.POST, value = "/salvar2", produces = MediaType.APPLICATION_JSON_VALUE)
-	public Projeto salvar2(@RequestBody Projeto projeto) throws PocException {
+	@RequestMapping(method = {RequestMethod.POST, RequestMethod.PUT}, value = "/salvar", produces = MediaType.APPLICATION_JSON_VALUE)
+	public Projeto salvar(@RequestBody Projeto projeto) throws PocException {
 		return projetoService.salvar(projeto);
 	}
 	
@@ -97,8 +70,8 @@ public class ProjetoController {
 	 * @return
 	 * @throws PocException
 	 */
-	@RequestMapping(method = RequestMethod.DELETE, value = "/excluir2", produces = MediaType.APPLICATION_JSON_VALUE)
-	public String excluir2(@RequestParam(value = "numeroProjeto") Integer numeroProjeto) throws PocException {
+	@RequestMapping(method = RequestMethod.DELETE, value = "/excluir", produces = MediaType.APPLICATION_JSON_VALUE)
+	public String excluir(@RequestParam(value = "numeroProjeto") Integer numeroProjeto) throws PocException {
 		return projetoService.excluir(numeroProjeto);
 	}
 
