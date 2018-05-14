@@ -2,9 +2,7 @@ package spring.h2.poc.IT;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -62,7 +60,7 @@ public class ProjetoControllerIT {
 	@Test
 	public void salvar() throws Exception {
 		mockMvc
-			.perform(get("/projeto/salvar")
+			.perform(put("/projeto/salvar")
 				.param("nome", ConstantesMock.NOME_TESTE)
 				.param("descricao", ConstantesMock.DESCRICAO_TESTE)
 				.contentType(MediaType.APPLICATION_JSON))
@@ -74,7 +72,7 @@ public class ProjetoControllerIT {
 	@Test
 	public void alterar() throws Exception {
 		String json = mockMvc
-				.perform(get("/projeto/salvar")
+				.perform(post("/projeto/salvar")
 					.param("nome", ConstantesMock.NOME_TESTE_ALTERAR)
 					.param("descricao", ConstantesMock.DESCRICAO_TESTE)
 					.contentType(MediaType.APPLICATION_JSON))
@@ -150,7 +148,7 @@ public class ProjetoControllerIT {
 	@Test
 	public void excluir2() throws Exception {
 		String json = mockMvc
-						.perform(get("/projeto/salvar")
+						.perform(post("/projeto/salvar")
 							.param("nome", ConstantesMock.NOME_TESTE_EXCLUIR)
 							.param("descricao", ConstantesMock.DESCRICAO_TESTE)
 							.contentType(MediaType.APPLICATION_JSON))
