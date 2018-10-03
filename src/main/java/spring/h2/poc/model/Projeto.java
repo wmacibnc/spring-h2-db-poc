@@ -9,7 +9,7 @@ import javax.persistence.Id;
 import spring.h2.poc.listeners.ProjetoListeners;
 
 @Entity
-@EntityListeners(ProjetoListeners.class)
+//@EntityListeners(ProjetoListeners.class)
 public class Projeto {
 
 	@Id

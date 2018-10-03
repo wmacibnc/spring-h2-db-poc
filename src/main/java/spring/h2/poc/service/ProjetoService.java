@@ -5,7 +5,9 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import spring.h2.poc.ConsultaProjetoFeign;
 import spring.h2.poc.exception.PocException;
 import spring.h2.poc.model.Projeto;
 import spring.h2.poc.repository.ProjetoRepository;
@@ -15,24 +17,34 @@ public class ProjetoService {
 
 	@Autowired
 	private ProjetoRepository projetoRepository;
+	
+	@Autowired
+	private ConsultaProjetoFeign consultaProjetoFeign;
 
 	public Projeto salvar(Integer numeroProjeto, String nome, String descricao) throws PocException {
 		return salvar(new Projeto(numeroProjeto, nome, descricao));
 	}
 	
+	@Transactional
 	public Projeto salvar(Projeto projeto) throws PocException {
+		
+		
+		consultaProjetoFeign.consultar();
+		
+		
+		
 		validar(projeto);
 		return projetoRepository.save(projeto);
 	}
 	
 	public Projeto obter(Integer numeroProjeto) throws PocException {
 		validarNumeroProjetoExiste(numeroProjeto);
-		return projetoRepository.findOne(numeroProjeto);
+		return projetoRepository.findById(numeroProjeto).get();
 	}
 
 	public String excluir(Integer numeroProjeto) throws PocException {
 		validarNumeroProjetoExiste(numeroProjeto);
-		projetoRepository.delete(numeroProjeto);
+		projetoRepository.deleteById(numeroProjeto);
 		return "Excluído com sucesso!";
 	}
 	
@@ -86,7 +98,7 @@ public class ProjetoService {
 	}
 
 	private void validarNumeroProjetoExiste(Integer numeroProjeto) throws PocException {
-		if (numeroProjeto == null || projetoRepository.findOne(numeroProjeto) == null) {
+		if (numeroProjeto == null || projetoRepository.findById(numeroProjeto) == null) {
 			throw new PocException("Não foi encontrado projeto com esse número.");
 		}
 	}

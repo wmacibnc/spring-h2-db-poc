@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 
 import org.junit.Before;
@@ -21,6 +22,7 @@ import spring.h2.poc.model.Projeto;
 import spring.h2.poc.repository.ProjetoRepository;
 import spring.h2.poc.service.ProjetoService;
 
+@SuppressWarnings("deprecation")
 @RunWith(MockitoJUnitRunner.class)
 public class ProjetoServiceUT {
 
@@ -33,7 +35,7 @@ public class ProjetoServiceUT {
 	public void setup() {
 		MockitoAnnotations.initMocks(this);
 		service.setProjetoRepository(projetoRepository);
-		Mockito.when(projetoRepository.findOne(ConstantesMock.NUMERO_PROJETO)).thenReturn(criarProjeto(null));
+		Mockito.when(projetoRepository.findById(ConstantesMock.NUMERO_PROJETO)).thenReturn(criarProjetoOptional(null));
 		Mockito.when(projetoRepository.save(Mockito.any(Projeto.class))).thenReturn(criarProjeto(ConstantesMock.NUMERO_PROJETO));
 		Mockito.when(projetoRepository.findAll()).thenReturn(criarProjetos());
 	}
@@ -92,7 +94,7 @@ public class ProjetoServiceUT {
 
 	@Test(expected = PocException.class)
 	public void validarNumeroProjetoExiste() throws PocException {
-		Mockito.when(projetoRepository.findOne(ConstantesMock.NUMERO_PROJETO)).thenReturn(null);
+		Mockito.when(projetoRepository.findById(ConstantesMock.NUMERO_PROJETO)).thenReturn(null);
 		service.excluir(ConstantesMock.NUMERO_PROJETO);
 	}
 
@@ -100,6 +102,10 @@ public class ProjetoServiceUT {
 		List<Projeto> lista = new ArrayList<>();
 		lista.add(criarProjeto(ConstantesMock.NUMERO_PROJETO));
 		return lista;
+	}
+	
+	private Optional<Projeto> criarProjetoOptional(Integer numeroProjeto) {
+		return Optional.of(new Projeto(numeroProjeto, ConstantesMock.NOME_TESTE, ConstantesMock.DESCRICAO_TESTE));
 	}
 	
 	private Projeto criarProjeto(Integer numeroProjeto) {

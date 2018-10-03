@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import spring.h2.poc.exception.PocException;
+import spring.h2.poc.fila.ProjetoFilaService;
 import spring.h2.poc.model.Projeto;
 import spring.h2.poc.service.ProjetoService;
 
@@ -23,6 +24,9 @@ public class ProjetoController {
 
 	@Autowired
 	private ProjetoService projetoService;
+	
+	@Autowired
+	private ProjetoFilaService projetoFilaService;
 
 	/**
 	 * Método responsável por obter um projeto. Retorna um projeto.
@@ -46,6 +50,7 @@ public class ProjetoController {
 	 */
 	@RequestMapping(method = RequestMethod.GET, value = "/consultar", produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody List<Projeto> consultar(@RequestParam(value = "nome", required = false) String nome, @RequestParam(value = "descricao", required = false) String descricao) throws PocException {
+		projetoFilaService.salvar(new Projeto("teste", "teste "));
 		return projetoService.consultar(nome, descricao);
 	}
 	
@@ -61,7 +66,7 @@ public class ProjetoController {
 	public Projeto salvar(@RequestBody Projeto projeto) throws PocException {
 		return projetoService.salvar(projeto);
 	}
-	
+		
 	/**
 	 * Método responsável por excluir um projeto, retorna uma mensagem de sucesso ou
 	 * erro.
